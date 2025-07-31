@@ -1,11 +1,10 @@
-import os
 import logging
 from pathlib import Path
 from dotenv import load_dotenv
 
 from src.transcription import transcribe_videos
 from src.script_generator import generate_script
-from src.resolve_builder import build_resolve_project
+from src.xml_builder import build_xml_project
 
 load_dotenv()
 
@@ -23,7 +22,7 @@ def setup_logging():
 
 
 def run_pipeline(video_path, prompt_text, output_path, duration_limit=None, max_sentences=15):
-    """Run the complete video editing pipeline using GPT-4o."""
+    """Run the complete XML editing pipeline using GPT-4o."""
     
     setup_logging()
     logger = logging.getLogger(__name__)
@@ -41,7 +40,7 @@ def run_pipeline(video_path, prompt_text, output_path, duration_limit=None, max_
         )
 
         if not transcript_files:
-            logger.error("❌ Transcription failed")
+            logger.error("Transcription failed")
             return False
 
         # Step 2: Generate script with GPT-4o
@@ -53,22 +52,22 @@ def run_pipeline(video_path, prompt_text, output_path, duration_limit=None, max_
             target_duration=duration_limit
         )
 
-        # Step 3: Build Resolve project
-        success = build_resolve_project(
+        # Step 3: Build XML project
+        success = build_xml_project(
             script_file=script_file,
             video_dir=video_path,
             output_dir=output_path
         )
 
         if success:
-            logger.info("✅ Pipeline completed successfully")
+            logger.info("Pipeline completed successfully")
         else:
-            logger.error("❌ Resolve build failed")
+            logger.error("XML build failed")
             
         return success
 
     except Exception as e:
-        logger.error(f"❌ Pipeline failed: {e}")
+        logger.error(f"Pipeline failed: {e}")
         return False
 
 

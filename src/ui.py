@@ -3,10 +3,10 @@ from tkinter import filedialog, messagebox
 from src.pipeline import run_pipeline
 
 
-class ResolveAIEditor:
+class XMLAIEditor:
     def __init__(self, root):
         self.root = root
-        root.title("AI Video Editor for DaVinci Resolve")
+        root.title("XML AI Editor - GPT-4o Video Editor")
         root.geometry("500x400")
         
         # Video folder
@@ -32,8 +32,8 @@ class ResolveAIEditor:
         self.duration_entry.pack(pady=5)
         
         # Run button
-        tk.Button(root, text="🎬 Generate Video", command=self.run_editor, 
-                 bg="green", fg="white", font=("Arial", 12, "bold")).pack(pady=30)
+        tk.Button(root, text="Generate XML", command=self.run_editor, 
+                 bg="blue", fg="white", font=("Arial", 12, "bold")).pack(pady=30)
 
     def browse_video(self):
         path = filedialog.askdirectory(title="Select Video Folder")
@@ -74,15 +74,15 @@ class ResolveAIEditor:
             success = run_pipeline(video_path, prompt, output_path, target_duration)
             
             if success:
-                messagebox.showinfo("Success", "🎉 Video processing complete!")
+                messagebox.showinfo("Success", "XML project generated successfully!\n\nImport project.xml into Premiere Pro to edit.")
             else:
-                messagebox.showerror("Failed", "❌ Processing failed - check logs")
+                messagebox.showerror("Failed", "Processing failed - check logs")
                 
         except Exception as e:
-            messagebox.showerror("Error", f"❌ {str(e)}")
+            messagebox.showerror("Error", f"{str(e)}")
 
 
 def launch_ui():
     root = tk.Tk()
-    ResolveAIEditor(root)
+    XMLAIEditor(root)
     root.mainloop()
