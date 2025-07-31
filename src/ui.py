@@ -7,7 +7,7 @@ class XMLAIEditor:
     def __init__(self, root):
         self.root = root
         root.title("XML AI Editor - GPT-4o Video Editor")
-        root.geometry("500x400")
+        root.geometry("500x600")
         
         # Video folder
         tk.Label(root, text="Video Folder:").pack(pady=5)
@@ -31,9 +31,10 @@ class XMLAIEditor:
         self.duration_entry = tk.Entry(root, width=20)
         self.duration_entry.pack(pady=5)
         
-        # Run button
-        tk.Button(root, text="Generate XML", command=self.run_editor, 
-                 bg="blue", fg="white", font=("Arial", 12, "bold")).pack(pady=30)
+        # Run button - Store reference to it
+        self.run_button = tk.Button(root, text="Generate XML", command=self.run_editor, 
+                                   bg="blue", fg="white", font=("Arial", 12, "bold"))
+        self.run_button.pack(pady=30)
 
     def browse_video(self):
         path = filedialog.askdirectory(title="Select Video Folder")
@@ -72,7 +73,8 @@ class XMLAIEditor:
         # Run pipeline
         try:
             # Disable button during processing
-            run_button = self.root.nametowidget(self.root.focus_get().master.children['!button4'] if hasattr(self.root.focus_get(), 'master') else None)
+            self.run_button.config(state="disabled", text="Processing...")
+            self.root.update()  # Update the UI to show the change
             
             success = run_pipeline(video_path, prompt, output_path, target_duration)
             
@@ -89,6 +91,10 @@ class XMLAIEditor:
                 
         except Exception as e:
             messagebox.showerror("Error", f"Unexpected error: {str(e)}")
+        
+        finally:
+            # Re-enable button after processing
+            self.run_button.config(state="normal", text="Generate XML")
 
 
 def launch_ui():
