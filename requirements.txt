@@ -1,0 +1,13 @@
+numpy
+scikit-learn
+PyYAML
+moviepy
+opencv-python
+librosa
+openai-whisper
+ffmpeg-python
+sentence-transformers
+openai
+python-dotenv
+pytest
+pytest-cov

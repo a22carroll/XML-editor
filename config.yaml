@@ -1,0 +1,31 @@
+# Configuration file for AI Video Editor
+
+# Transcription settings
+transcription:
+  model_size: "base"  # Whisper model: "tiny", "base", "small", "medium", "large"
+  language: "auto"    # Language code or "auto" for auto-detection
+  
+# AI script generation settings
+script_generation:
+  embedding_model: "all-MiniLM-L6-v2"  # Sentence transformer model
+  openai_api_key: null  # Optional: OpenAI API key for script refinement
+  min_similarity: 0.3   # Minimum similarity threshold for sentence selection
+  target_length: "medium"  # "short", "medium", or "long"
+  
+# DaVinci Resolve settings
+resolve:
+  frame_rate: 24.0     # Timeline frame rate
+  use_mock: false      # Use mock API for testing (true/false)
+  
+# File paths
+paths:
+  input_videos: "input/videos"           # Directory for input video files
+  input_prompt: "input/prompt.txt"       # User prompt file
+  temp_transcripts: "temp/transcripts"   # Generated transcripts
+  temp_script: "temp/script.json"        # Generated script data
+  output_dir: "output"                   # Final output directory
+  
+# Logging configuration
+logging:
+  level: "INFO"                          # "DEBUG", "INFO", "WARNING", "ERROR"
+  file: "output/logs/pipeline.log"       # Log file path
