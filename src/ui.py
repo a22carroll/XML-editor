@@ -71,15 +71,24 @@ class XMLAIEditor:
         
         # Run pipeline
         try:
+            # Disable button during processing
+            run_button = self.root.nametowidget(self.root.focus_get().master.children['!button4'] if hasattr(self.root.focus_get(), 'master') else None)
+            
             success = run_pipeline(video_path, prompt, output_path, target_duration)
             
             if success:
-                messagebox.showinfo("Success", "XML project generated successfully!\n\nImport project.xml into Premiere Pro to edit.")
+                messagebox.showinfo("Success", 
+                    "XML project generated successfully!\n\n" +
+                    "Files created:\n" +
+                    "• project.xml - Import into Premiere Pro\n" +
+                    "• project.json - Project data\n" +
+                    "• edit_summary.txt - Timeline summary")
             else:
-                messagebox.showerror("Failed", "Processing failed - check logs")
+                messagebox.showerror("Failed", 
+                    "Processing failed. Check the logs folder for details.")
                 
         except Exception as e:
-            messagebox.showerror("Error", f"{str(e)}")
+            messagebox.showerror("Error", f"Unexpected error: {str(e)}")
 
 
 def launch_ui():
